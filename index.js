@@ -1,19 +1,5 @@
-import { Navigation } from "react-native-navigation";
-import App from './App';
+import {launch} from './src/Navigation';
+import setupAxios from './src/axios';
 
-Navigation.registerComponent('com.myApp.WelcomeScreen', () => App);
-Navigation.events().registerAppLaunchedListener(() => {
-   Navigation.setRoot({
-     root: {
-       stack: {
-         children: [
-           {
-             component: {
-               name: 'com.myApp.WelcomeScreen'
-             }
-           }
-         ]
-       }
-     }
-  });
-});
+setupAxios();
+launch();
