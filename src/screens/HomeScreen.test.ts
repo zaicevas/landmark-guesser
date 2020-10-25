@@ -13,7 +13,7 @@ describe('HomeScreen', () => {
   describe('on History Button Press', () => {
     beforeEach(() => new HomeScreenDriver().tapHistory());
 
-    it.only('opens history screen', () => {
+    it('opens history screen', () => {
       expect(navigatedTo(Screen.HISTORY)).toBe(true);
     });
 
