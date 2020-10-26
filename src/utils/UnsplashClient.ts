@@ -36,4 +36,10 @@ interface ImageInfo {
     country?: string;
   };
   urls: ImageUrls;
+  user: {
+    name: string;
+    links: {
+      html: string;
+    }
+  }
 }

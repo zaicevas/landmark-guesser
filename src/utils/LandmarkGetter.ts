@@ -39,7 +39,12 @@ class LandmarkGetter {
         this.queriedImageIndexes.push(idIndex);
 
         if (foundImageWithLocation) {
-          return {imageUrl: imageInfo.urls.regular, country};
+          return {
+            imageUrl: imageInfo.urls.regular,
+            country,
+            authorName: imageInfo.user.name,
+            authorUrl: imageInfo.user.links.html,
+          };
         }
       }
     } catch (err) {

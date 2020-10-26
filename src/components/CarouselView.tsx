@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {View, Image, LoaderScreen, Colors, Button} from 'react-native-ui-lib';
-import {ImageStyle, StyleSheet} from 'react-native';
+import {ImageStyle, StyleSheet, Linking} from 'react-native';
 import Layout from '../constants/Layout';
 import {WRONG_CHOICES_AMOUNT, Landmark, Country} from '../constants/Game';
 import {getRandomInt} from '../utils';
@@ -26,6 +26,15 @@ const CarouselView = React.memo(
     const {imageUrl: imgUrl, country: correctAnswer} = landmark;
     const choices = useRef(getChoices(correctAnswer));
 
+    const openAuthorLink = () => {
+      // TODO: implement error toast
+      Linking.openURL(
+        `${
+          landmark.authorUrl as string
+        }?utm_source=where-is-this&utm_medium=referral`,
+      ).catch(() => console.log('Cant open author link'));
+    };
+
     if (isLoading)
       return (
         <View center paddingT-20>
@@ -47,6 +56,15 @@ const CarouselView = React.memo(
             source={{
               uri: imgUrl,
             }}
+          />
+        </View>
+        <View center>
+          <Button
+            link
+            text80
+            label={`Author: ${landmark.authorName} on Unsplash`}
+            marginT-20
+            onPress={openAuthorLink}
           />
         </View>
         <View marginT-30 paddingH-60>
@@ -82,7 +100,7 @@ const CarouselView = React.memo(
   },
 );
 
-const colorKeys = ['bg-blue30', 'bg-orange30', 'bg-yellow30', 'bg-dark30'];
+const colorKeys = ['bg-orange30', 'bg-blue30', 'bg-yellow30', 'bg-dark30'];
 const colorProps = colorKeys.map((colorKey) => ({[colorKey]: true}));
 
 interface CarouselViewProps {

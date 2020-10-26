@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-export const INITIAL_LANDMARKS_AMOUNT = 2;
+export const INITIAL_LANDMARKS_AMOUNT = 7;
 export const LANDMARKS_INCREMENT_AMOUNT = 3;
 export const WRONG_CHOICES_AMOUNT = 3;
 export const CACHED_PAGES = 1;
@@ -54,7 +54,12 @@ export enum Country {
   Nowhere_Land = 'Nowhere Land',
 }
 
-export type Landmark = {imageUrl: string; country: Country};
+export type Landmark = {
+  imageUrl: string;
+  country: Country;
+  authorName?: string;
+  authorUrl?: string;
+};
 
 export const ERROR_LANDMARK: Landmark = {
   imageUrl: 'https://i.ytimg.com/vi/kSZjsGjBqqI/maxresdefault.jpg',
