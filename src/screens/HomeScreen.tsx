@@ -32,7 +32,7 @@ const HomeScreen = ({componentId}: HomeScreenProps) => {
             <Button
               text70
               bg-orange30
-              label="Play"
+              label="Play Infinite Mode"
               onPress={navigateToPlay}
               testID={PLAY_BUTTON}
             />

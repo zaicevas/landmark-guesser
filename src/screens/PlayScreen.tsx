@@ -1,13 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Alert, SafeAreaView, StyleSheet, ViewStyle} from 'react-native';
-import {
-  Colors,
-  View,
-  ActionBar,
-  PageControl,
-  Carousel,
-  Toast,
-} from 'react-native-ui-lib';
+import {SafeAreaView, StyleSheet, ViewStyle} from 'react-native';
+import {Colors, View, Carousel, Toast} from 'react-native-ui-lib';
+import PageControl from '../components/PageControl';
 import CarouselView from '../components/CarouselView';
 import Layout from '../constants/Layout';
 import {
@@ -36,16 +30,33 @@ export const buildPlayScreen = (
     const [landmarks, setLandmarks] = useState<Landmark[]>([]);
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [showErrorToast, setShowErrorToast] = useState(false);
+    const [chosenPages, setChosenPages] = useState<
+      {id: number; isCorrect: boolean}[]
+    >([]);
 
-    const onCorrectAnswer = useCallback((landmark: Landmark) => {
-      choiceHistory.addChoiceToHistory(landmark, landmark.country);
-      setShowSuccessToast(true);
-    }, []);
+    const onCorrectAnswer = useCallback(
+      (landmark: Landmark) => {
+        choiceHistory.addChoiceToHistory(landmark, landmark.country);
+        setShowSuccessToast(true);
+        setChosenPages((prevChosenPages) => [
+          ...prevChosenPages,
+          {id: currentPage, isCorrect: true},
+        ]);
+      },
+      [currentPage],
+    );
 
-    const onWrongAnswer = useCallback((landmark: Landmark, choice: Country) => {
-      choiceHistory.addChoiceToHistory(landmark, choice);
-      setShowErrorToast(true);
-    }, []);
+    const onWrongAnswer = useCallback(
+      (landmark: Landmark, choice: Country) => {
+        choiceHistory.addChoiceToHistory(landmark, choice);
+        setChosenPages((prevChosenPages) => [
+          ...prevChosenPages,
+          {id: currentPage, isCorrect: false},
+        ]);
+        setShowErrorToast(true);
+      },
+      [currentPage],
+    );
 
     const stopShowingSuccessToast = useCallback(
       () => setShowSuccessToast(false),
@@ -106,6 +117,23 @@ export const buildPlayScreen = (
         />
         <View flex bg-dark80 style={styles.container}>
           <PageControl
+            setColorOnIndex={(index: number) => {
+              const chosenPage = chosenPages.find((page) => page.id === index);
+              let backgroundColor: string;
+              if (currentPage === index) {
+                backgroundColor = 'black';
+              } else if (chosenPage && chosenPage.isCorrect) {
+                backgroundColor = Colors.green30;
+              } else if (chosenPage && !chosenPage.isCorrect) {
+                backgroundColor = Colors.red30;
+              } else if (!chosenPage && index !== currentPage) {
+                backgroundColor = 'white';
+              }
+              return {
+                backgroundColor: backgroundColor!,
+                borderColor: 'black',
+              };
+            }}
             containerStyle={[styles.pageControl, styles.absoluteContainer]}
             limitShownPages
             numOfPages={numOfPages}
@@ -124,36 +152,12 @@ export const buildPlayScreen = (
               onWrongAnswer,
             )}
           </Carousel>
-          <ActionBar
-            actions={[
-              {
-                label: 'Report',
-                red30: true,
-                onPress: showReportAlert,
-              },
-            ]}
-          />
         </View>
       </SafeAreaView>
     );
   };
   return () => <PlayScreen />;
 };
-
-const showReportAlert = () =>
-  Alert.alert(
-    'Report',
-    'Is there a mismatch between image and correct answer?',
-    [
-      {
-        text: 'No',
-        style: 'cancel',
-      },
-      {
-        text: 'Yes',
-      },
-    ],
-  );
 
 const generateCarouselViews = (
   amount: number,
