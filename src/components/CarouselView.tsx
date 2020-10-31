@@ -22,6 +22,8 @@ const CarouselView = React.memo(
     testID,
   }: CarouselViewProps) => {
     const [hasChosen, setHasChosen] = useState(false);
+    const [hasChosenCorrectAnswer, setHasChosenCorrectAnswer] = useState(false);
+    const [choice, setChoice] = useState<Country | null>(null);
 
     const {imageUrl: imgUrl, country: correctAnswer} = landmark;
     const choices = useRef(getChoices(correctAnswer));
@@ -47,6 +49,16 @@ const CarouselView = React.memo(
           </View>
         </View>
       );
+
+    const getDisabledBackgroundColor = (answer: Country) => {
+      if (!hasChosen) return undefined;
+      if (hasChosenCorrectAnswer && answer !== correctAnswer) return undefined;
+      if (hasChosenCorrectAnswer && answer === correctAnswer)
+        return Colors.green30;
+      if (!hasChosenCorrectAnswer && answer === choice) return Colors.red30;
+      if (!hasChosenCorrectAnswer && answer === correctAnswer)
+        return Colors.green30;
+    };
 
     return (
       <View paddingT-10>
@@ -76,14 +88,19 @@ const CarouselView = React.memo(
               key={answer}
               marginB-20
               disabled={hasChosen}
+              disabledBackgroundColor={getDisabledBackgroundColor(answer)}
               onPress={
                 answer === correctAnswer
                   ? () => {
                       onCorrectAnswer(landmark);
+                      setHasChosenCorrectAnswer(true);
+                      setChoice(answer);
                       setHasChosen(true);
                     }
                   : () => {
                       onWrongAnswer(landmark, answer);
+                      setHasChosenCorrectAnswer(false);
+                      setChoice(answer);
                       setHasChosen(true);
                     }
               }
