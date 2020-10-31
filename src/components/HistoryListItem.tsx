@@ -29,13 +29,16 @@ const HistoryListItem = React.memo(({item}: HistoryListItemProps) => (
           text60
           style={styles.text}
           numberOfLines={1}>
-          {item.guess}
+          {item.answer}
         </Text>
       </ListItem.Part>
       {item.answer !== item.guess && (
         <ListItem.Part>
           <Text style={styles.text} text90 dark40 numberOfLines={1}>
-            {item.answer}
+            You guessed:{' '}
+            <Text style={styles.text} text90 dark10 numberOfLines={1}>
+              {item.guess}
+            </Text>
           </Text>
         </ListItem.Part>
       )}

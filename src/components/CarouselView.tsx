@@ -27,7 +27,7 @@ const CarouselView = React.memo(
     const choices = useRef(getChoices(correctAnswer));
 
     const openAuthorLink = () => {
-      // TODO: implement error toast
+      // @TODO: implement error toas
       Linking.openURL(
         `${
           landmark.authorUrl as string
@@ -62,7 +62,7 @@ const CarouselView = React.memo(
           <Button
             link
             text80
-            label={`Author: ${landmark.authorName} on Unsplash`}
+            label={`Author: ${landmark.authorName} (Unsplash)`}
             marginT-20
             onPress={openAuthorLink}
           />
