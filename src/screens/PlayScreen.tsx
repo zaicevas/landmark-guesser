@@ -115,7 +115,25 @@ export const buildPlayScreen = (
           centerMessage
           backgroundColor={Colors.red30}
         />
-        <View flex bg-dark80 style={styles.container}>
+        <View flex dark80 style={styles.container}>
+          <Carousel
+            containerStyle={styles.page}
+            onChangePage={changePage}
+            showCounter>
+            {generateCarouselViews(
+              numOfPages,
+              landmarks,
+              onCorrectAnswer,
+              onWrongAnswer,
+            )}
+          </Carousel>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: '50%',
+          }}>
           <PageControl
             setColorOnIndex={(index: number) => {
               const chosenPage = chosenPages.find((page) => page.id === index);
@@ -141,17 +159,6 @@ export const buildPlayScreen = (
             color={Colors.dark10}
             size={Layout.width * 0.05}
           />
-          <Carousel
-            containerStyle={styles.page}
-            onChangePage={changePage}
-            showCounter>
-            {generateCarouselViews(
-              numOfPages,
-              landmarks,
-              onCorrectAnswer,
-              onWrongAnswer,
-            )}
-          </Carousel>
         </View>
       </SafeAreaView>
     );
