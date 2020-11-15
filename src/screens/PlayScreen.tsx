@@ -116,10 +116,7 @@ export const buildPlayScreen = (
           backgroundColor={Colors.red30}
         />
         <View flex dark80 style={styles.container}>
-          <Carousel
-            containerStyle={styles.page}
-            onChangePage={changePage}
-            showCounter>
+          <Carousel containerStyle={styles.page} onChangePage={changePage}>
             {generateCarouselViews(
               numOfPages,
               landmarks,
