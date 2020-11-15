@@ -19,6 +19,7 @@ import {
   ERROR_TOAST_TEXT,
 } from '../constants/Toast';
 import ChoiceHistory from '../utils/HistoryItem';
+import {isSmallDevice} from '../utils/responsive';
 
 export const buildPlayScreen = (
   landmarkGetter: LandmarkGetter,
@@ -204,7 +205,7 @@ const styles = StyleSheet.create<Styles>({
   },
   absoluteContainer: {
     position: 'absolute',
-    bottom: 8,
+    bottom: isSmallDevice() ? 8 : 16,
     left: 0,
     right: 0,
   },

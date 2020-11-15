@@ -4,3 +4,7 @@
 
 ## Unsplash API
 [API Docs](https://unsplash.com/documentation)
+
+## Useful cmd
+- Uninstall app: `adb uninstall "com.landmarkguesser"`
+- Run release version `npx react-native run-android --variant=release`
