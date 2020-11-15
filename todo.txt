@@ -1,4 +1,2 @@
-1. Notification on reported image
-2. Either remove subtitle in 'history' on incorrent guess, or add 'correct: ' prefix to it
-3. Add img author in 'play' screen
-4. Remove counter in 'play' screen
+1. Remove counter in 'play' screen
+2. overlay on image click in 'play' screen

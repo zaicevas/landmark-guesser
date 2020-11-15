@@ -6,6 +6,7 @@ import {WRONG_CHOICES_AMOUNT, Landmark, Country} from '../constants/Game';
 import {getRandomInt} from '../utils';
 import {generateChoices} from '../utils/Country';
 import {getCorrectChoiceTestId, getWrongChoiceTestId} from '../testIds';
+import {isSmallDevice, NEXUS_5_HEIGHT} from '../utils/responsive';
 
 const getChoices = (correctAnswer: Country) => {
   const choices = generateChoices(WRONG_CHOICES_AMOUNT, correctAnswer);
@@ -60,6 +61,19 @@ const CarouselView = React.memo(
         return Colors.green30;
     };
 
+    const choiceButtonTextSize = Math.round(
+      90 - (Layout.height - NEXUS_5_HEIGHT) * 0.0657,
+    );
+    const choiceButtonTextProp = `text${choiceButtonTextSize}`;
+
+    const choiceButtonMarginBSize = Math.round(
+      15 + (Layout.height - NEXUS_5_HEIGHT) * 0.05,
+    );
+    const choiceButtonMarginBProp = `marginB-${choiceButtonMarginBSize}`;
+
+    console.log('prop: ', {[choiceButtonTextProp]: true});
+    console.log('margin:: ', {[choiceButtonMarginBProp]: true});
+
     return (
       <View paddingT-10>
         <View center>
@@ -73,20 +87,22 @@ const CarouselView = React.memo(
         <View center>
           <Button
             link
-            text80
+            text90
             label={`Author: ${landmark.authorName} (Unsplash)`}
-            marginT-20
+            marginT-10
             onPress={openAuthorLink}
           />
         </View>
-        <View marginT-30 paddingH-60>
+        <View
+          {...(isSmallDevice() ? {'marginT-15': true} : {'marginT-30': true})}
+          paddingH-60>
           {choices.current.map((answer, index) => (
             <Button
               {...colorProps[index]}
-              text70
+              {...{[choiceButtonTextProp]: true}}
               label={answer}
               key={answer}
-              marginB-20
+              {...{[choiceButtonMarginBProp]: true}}
               disabled={hasChosen}
               disabledBackgroundColor={getDisabledBackgroundColor(answer)}
               onPress={

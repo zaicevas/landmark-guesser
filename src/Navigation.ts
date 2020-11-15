@@ -77,6 +77,9 @@ export const launch = () => {
       topBar: {
         visible: false,
       },
+      layout: {
+        orientation: ['portrait'],
+      },
     });
   });
 };

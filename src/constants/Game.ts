@@ -2,8 +2,8 @@
 export const INITIAL_LANDMARKS_AMOUNT = 7;
 export const LANDMARKS_INCREMENT_AMOUNT = 3;
 export const WRONG_CHOICES_AMOUNT = 3;
-export const CACHED_PAGES = 1;
-export const CACHED_IMAGES_PER_PAGE = 30;
+export const CACHED_PAGES = 10;
+export const CACHED_IMAGES_PER_PAGE = 30; // 30 is max
 
 export enum Country {
   Greece = 'Greece',
@@ -51,6 +51,7 @@ export enum Country {
   Estados_Unidos = 'USA',
   Russia = 'Russia',
   Russland = 'Russia',
+  Argentina = 'Argentina',
   Nowhere_Land = 'Nowhere Land',
 }
 

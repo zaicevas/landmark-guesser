@@ -128,12 +128,7 @@ export const buildPlayScreen = (
             )}
           </Carousel>
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: '50%',
-          }}>
+        <View>
           <PageControl
             setColorOnIndex={(index: number) => {
               const chosenPage = chosenPages.find((page) => page.id === index);
@@ -212,7 +207,7 @@ const styles = StyleSheet.create<Styles>({
   },
   absoluteContainer: {
     position: 'absolute',
-    bottom: 70,
+    bottom: 8,
     left: 0,
     right: 0,
   },

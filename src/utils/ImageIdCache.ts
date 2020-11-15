@@ -7,7 +7,7 @@ export const cacheInitialImageIds = async (
   imagesPerPage: number,
 ): Promise<string[]> => {
   const cachedIds = await getCachedImageIds();
-  const alreadyCached = cachedIds.length > 0;
+  const alreadyCached = cachedIds.length === pages * imagesPerPage;
 
   if (!alreadyCached) {
     const ids = await fetchImageIds(pages, imagesPerPage);
