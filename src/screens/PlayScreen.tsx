@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {SafeAreaView, StyleSheet, ViewStyle} from 'react-native';
 import {Colors, View, Carousel, Toast} from 'react-native-ui-lib';
 import PageControl from '../components/PageControl';
@@ -21,6 +21,11 @@ import {
 import ChoiceHistory from '../utils/HistoryItem';
 import {isSmallDevice} from '../utils/responsive';
 
+interface CarouselMethods {
+  goToNextPage: () => void;
+  goToPage: (nextPageIndex: number, animated?: boolean) => void;
+}
+
 export const buildPlayScreen = (
   landmarkGetter: LandmarkGetter,
   choiceHistory: ChoiceHistory,
@@ -35,8 +40,11 @@ export const buildPlayScreen = (
       {id: number; isCorrect: boolean}[]
     >([]);
 
+    const carousel = useRef<CarouselMethods>();
+
     const onCorrectAnswer = useCallback(
       (landmark: Landmark) => {
+        carousel.current?.goToNextPage();
         choiceHistory.addChoiceToHistory(landmark, landmark.country);
         setShowSuccessToast(true);
         setChosenPages((prevChosenPages) => [
@@ -83,7 +91,12 @@ export const buildPlayScreen = (
     }, []);
 
     const changePage = async (newPageIndex: number) => {
-      if (newPageIndex >= numOfPages - 2) {
+      setCurrentPage(newPageIndex);
+
+      console.log('newPageIndex: ', newPageIndex);
+      console.log('numOfPages - 3: ', numOfPages - 3);
+      if (newPageIndex >= numOfPages - 3) {
+        console.log('fetching new images');
         setNumOfPages(numOfPages + LANDMARKS_INCREMENT_AMOUNT);
         for (let i = 0; i < LANDMARKS_INCREMENT_AMOUNT; i++) {
           const newLandmark = await landmarkGetter.getLandmark();
@@ -93,7 +106,6 @@ export const buildPlayScreen = (
           ]);
         }
       }
-      setCurrentPage(newPageIndex);
     };
 
     return (
@@ -117,7 +129,10 @@ export const buildPlayScreen = (
           backgroundColor={Colors.red30}
         />
         <View flex dark80 style={styles.container}>
-          <Carousel containerStyle={styles.page} onChangePage={changePage}>
+          <Carousel
+            containerStyle={styles.page}
+            onChangePage={changePage}
+            ref={carousel}>
             {generateCarouselViews(
               numOfPages,
               landmarks,
@@ -151,6 +166,7 @@ export const buildPlayScreen = (
             currentPage={currentPage}
             color={Colors.dark10}
             size={Layout.width * 0.05}
+            onPagePress={(index) => carousel.current?.goToPage(index)}
           />
         </View>
       </SafeAreaView>

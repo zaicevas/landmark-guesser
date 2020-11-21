@@ -52,6 +52,7 @@ export enum Country {
   Russia = 'Russia',
   Russland = 'Russia',
   Argentina = 'Argentina',
+  Cambodia = 'Cambodia',
   Nowhere_Land = 'Nowhere Land',
 }
 

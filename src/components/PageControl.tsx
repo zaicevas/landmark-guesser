@@ -64,6 +64,10 @@ export interface PageControlProps {
    */
   currentPage: number;
   /**
+   * Action handler for clicking on a page indicator
+   */
+  onPagePress?: (index: number) => void;
+  /**
    * Color of the selected page dot and, if inactiveColor not passed, the border of the not selected pages
    */
   color?: string;
@@ -220,17 +224,26 @@ class PageControl extends PureComponent<PageControlProps, State> {
     }
   }
 
+  getOnPagePress = (index: number) => {
+    return () => {
+      PageControl.animate(this.props);
+      _.invoke(this.props, 'onPagePress', index);
+    };
+  };
+
   renderIndicator(index: number, size: number, enlargeActive?: boolean) {
     const {
       currentPage,
       color,
       inactiveColor,
+      onPagePress,
       spacing = PageControl.DEFAULT_SPACING,
       setColorOnIndex,
     } = this.props;
     return (
       <TouchableOpacity
         key={index}
+        onPress={onPagePress && this.getOnPagePress(index)}
         style={[
           styles.pageIndicator,
           {marginHorizontal: spacing / 2},

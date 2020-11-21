@@ -71,8 +71,8 @@ const CarouselView = React.memo(
     );
     const choiceButtonMarginBProp = `marginB-${choiceButtonMarginBSize}`;
 
-    console.log('prop: ', {[choiceButtonTextProp]: true});
-    console.log('margin:: ', {[choiceButtonMarginBProp]: true});
+    // console.log('prop: ', {[choiceButtonTextProp]: true});
+    // console.log('margin: ', {[choiceButtonMarginBProp]: true});
 
     return (
       <View paddingT-10>
@@ -89,12 +89,12 @@ const CarouselView = React.memo(
             link
             text90
             label={`Author: ${landmark.authorName} (Unsplash)`}
-            marginT-10
+            {...(isSmallDevice() ? {'marginT-5': true} : {'marginT-10': true})}
             onPress={openAuthorLink}
           />
         </View>
         <View
-          {...(isSmallDevice() ? {'marginT-15': true} : {'marginT-30': true})}
+          {...(isSmallDevice() ? {'marginT-10': true} : {'marginT-30': true})}
           paddingH-60>
           {choices.current.map((answer, index) => (
             <Button
