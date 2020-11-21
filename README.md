@@ -6,5 +6,5 @@
 [API Docs](https://unsplash.com/documentation)
 
 ## Useful cmd
-- Uninstall app: `adb uninstall "com.landmarkguesser"`
+- Uninstall app: `adb uninstall "com.tozaicevas.guess_the_place"`
 - Run release version `npx react-native run-android --variant=release`

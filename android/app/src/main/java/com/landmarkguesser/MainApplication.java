@@ -1,4 +1,4 @@
-package com.landmarkguesser;
+package com.tozaicevas.guess_the_place;
 
 import android.app.Application;
 import android.content.Context;
@@ -44,7 +44,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    
+
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
@@ -63,7 +63,7 @@ public class MainApplication extends NavigationApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.landmarkguesser.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.tozaicevas.guess_the_place.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

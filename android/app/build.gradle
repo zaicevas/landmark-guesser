@@ -129,12 +129,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.landmarkguesser"
+        applicationId "com.tozaicevas.guess_the_place"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
-				multiDexEnabled true
+        versionName "0.1"
+        multiDexEnabled true
     }
     splits {
         abi {
