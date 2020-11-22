@@ -79,29 +79,31 @@ export const buildPlayScreen = (
     );
 
     useEffect(() => {
-      const getInitialLandmarks = async () => {
+      const getInitialLandmarks = () => {
         for (let i = 0; i < INITIAL_LANDMARKS_AMOUNT; i++) {
-          const newLandmark = await landmarkGetter.getLandmark();
-          setLandmarks((previousLandmarks) => [
-            ...previousLandmarks,
-            newLandmark,
-          ]);
+          landmarkGetter.getLandmark().then((newLandmark) => {
+            setLandmarks((previousLandmarks) => [
+              ...previousLandmarks,
+              newLandmark,
+            ]);
+          });
         }
       };
       getInitialLandmarks();
     }, []);
 
-    const changePage = async (newPageIndex: number) => {
+    const changePage = (newPageIndex: number) => {
       setCurrentPage(newPageIndex);
 
       if (newPageIndex >= numOfPages - 3) {
         setNumOfPages(numOfPages + LANDMARKS_INCREMENT_AMOUNT);
         for (let i = 0; i < LANDMARKS_INCREMENT_AMOUNT; i++) {
-          const newLandmark = await landmarkGetter.getLandmark();
-          setLandmarks((previousLandmarks) => [
-            ...previousLandmarks,
-            newLandmark,
-          ]);
+          landmarkGetter.getLandmark().then((newLandmark) => {
+            setLandmarks((previousLandmarks) => [
+              ...previousLandmarks,
+              newLandmark,
+            ]);
+          });
         }
       }
     };
