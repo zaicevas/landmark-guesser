@@ -40,32 +40,33 @@ export const buildPlayScreen = (
       {id: number; isCorrect: boolean}[]
     >([]);
 
+    const currentPageRef = useRef<number>(0);
+    currentPageRef.current = currentPage;
+
     const carousel = useRef<CarouselMethods>();
 
-    const onCorrectAnswer = useCallback(
-      (landmark: Landmark) => {
-        carousel.current?.goToNextPage();
-        choiceHistory.addChoiceToHistory(landmark, landmark.country);
-        setShowSuccessToast(true);
-        setChosenPages((prevChosenPages) => [
-          ...prevChosenPages,
-          {id: currentPage, isCorrect: true},
-        ]);
-      },
-      [currentPage],
-    );
+    const onCorrectAnswer = useCallback((landmark: Landmark) => {
+      carousel.current?.goToNextPage();
+      choiceHistory.addChoiceToHistory(landmark, landmark.country);
+      setShowSuccessToast(true);
+      // currentPageRef.current is a performance optimization so that this function is always the same
+      // and CarouselView doesn't rerender on every swipe
+      setChosenPages((prevChosenPages) => [
+        ...prevChosenPages,
+        {id: currentPageRef.current, isCorrect: true},
+      ]);
+    }, []);
 
-    const onWrongAnswer = useCallback(
-      (landmark: Landmark, choice: Country) => {
-        choiceHistory.addChoiceToHistory(landmark, choice);
-        setChosenPages((prevChosenPages) => [
-          ...prevChosenPages,
-          {id: currentPage, isCorrect: false},
-        ]);
-        setShowErrorToast(true);
-      },
-      [currentPage],
-    );
+    const onWrongAnswer = useCallback((landmark: Landmark, choice: Country) => {
+      choiceHistory.addChoiceToHistory(landmark, choice);
+      // currentPageRef.current is a performance optimization so that this function is always the same
+      // and CarouselView doesn't rerender on every swipe
+      setChosenPages((prevChosenPages) => [
+        ...prevChosenPages,
+        {id: currentPageRef.current, isCorrect: false},
+      ]);
+      setShowErrorToast(true);
+    }, []);
 
     const stopShowingSuccessToast = useCallback(
       () => setShowSuccessToast(false),
@@ -93,10 +94,7 @@ export const buildPlayScreen = (
     const changePage = async (newPageIndex: number) => {
       setCurrentPage(newPageIndex);
 
-      console.log('newPageIndex: ', newPageIndex);
-      console.log('numOfPages - 3: ', numOfPages - 3);
       if (newPageIndex >= numOfPages - 3) {
-        console.log('fetching new images');
         setNumOfPages(numOfPages + LANDMARKS_INCREMENT_AMOUNT);
         for (let i = 0; i < LANDMARKS_INCREMENT_AMOUNT; i++) {
           const newLandmark = await landmarkGetter.getLandmark();
@@ -186,7 +184,7 @@ const generateCarouselViews = (
     carouselViews.push(
       <CarouselView
         testID={getCarouselViewTestId(i)}
-        key={landmarks[i]?.imageUrl || i}
+        key={i}
         isLoading={landmarks.length - 1 < i}
         landmark={landmarks[i] || ERROR_LANDMARK}
         onCorrectAnswer={onCorrectAnswer}
@@ -196,10 +194,6 @@ const generateCarouselViews = (
   }
   return carouselViews;
 };
-
-interface PlayScreenProps {
-  landmarkGetter: LandmarkGetter;
-}
 
 interface Styles {
   container: ViewStyle;

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {View, Image, LoaderScreen, Colors, Button} from 'react-native-ui-lib';
 import {ImageStyle, StyleSheet, Linking} from 'react-native';
 import Layout from '../constants/Layout';
@@ -40,7 +40,7 @@ const CarouselView = React.memo(
     const [choice, setChoice] = useState<Country | null>(null);
 
     const {imageUrl: imgUrl, country: correctAnswer} = landmark;
-    const choices = useRef(getChoices(correctAnswer));
+    const choices = getChoices(correctAnswer);
 
     const openAuthorLink = () => {
       // @TODO: implement error toas
@@ -118,7 +118,7 @@ const CarouselView = React.memo(
           />
         </View>
         <View {...{[buttonsMarginTopProp]: true}} paddingH-60>
-          {choices.current.map((answer, index) => (
+          {choices.map((answer, index) => (
             <Button
               {...colorProps[index]}
               {...{[choiceButtonTextProp]: true}}
