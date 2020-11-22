@@ -6,7 +6,20 @@ import {WRONG_CHOICES_AMOUNT, Landmark, Country} from '../constants/Game';
 import {getRandomInt} from '../utils';
 import {generateChoices} from '../utils/Country';
 import {getCorrectChoiceTestId, getWrongChoiceTestId} from '../testIds';
-import {isSmallDevice, NEXUS_5_HEIGHT} from '../utils/responsive';
+import {GALAXY_A5_HEIGHT, NEXUS_5_HEIGHT} from '../utils/responsive';
+
+const getResponsiveVerticalSize = ({
+  min,
+  max,
+  breakpoint,
+}: {
+  min: number;
+  max: number;
+  breakpoint: number;
+}) =>
+  min +
+  Math.max(0, Layout.height - breakpoint) *
+    ((max - min) / (Layout.height - breakpoint));
 
 const getChoices = (correctAnswer: Country) => {
   const choices = generateChoices(WRONG_CHOICES_AMOUNT, correctAnswer);
@@ -71,8 +84,19 @@ const CarouselView = React.memo(
     );
     const choiceButtonMarginBProp = `marginB-${choiceButtonMarginBSize}`;
 
-    // console.log('prop: ', {[choiceButtonTextProp]: true});
-    // console.log('margin: ', {[choiceButtonMarginBProp]: true});
+    const authorMarginTop = getResponsiveVerticalSize({
+      min: 5,
+      max: 10,
+      breakpoint: GALAXY_A5_HEIGHT,
+    });
+    const authorMarginTopProp = `marginT-${authorMarginTop}`;
+
+    const buttonsMarginTop = getResponsiveVerticalSize({
+      min: 10,
+      max: 30,
+      breakpoint: GALAXY_A5_HEIGHT,
+    });
+    const buttonsMarginTopProp = `marginT-${buttonsMarginTop}`;
 
     return (
       <View paddingT-10>
@@ -89,13 +113,11 @@ const CarouselView = React.memo(
             link
             text90
             label={`Author: ${landmark.authorName} (Unsplash)`}
-            {...(isSmallDevice() ? {'marginT-5': true} : {'marginT-10': true})}
+            {...{[authorMarginTopProp]: true}}
             onPress={openAuthorLink}
           />
         </View>
-        <View
-          {...(isSmallDevice() ? {'marginT-10': true} : {'marginT-30': true})}
-          paddingH-60>
+        <View {...{[buttonsMarginTopProp]: true}} paddingH-60>
           {choices.current.map((answer, index) => (
             <Button
               {...colorProps[index]}
