@@ -19,7 +19,7 @@ const getResponsiveVerticalSize = ({
 }) =>
   min +
   Math.max(0, Layout.height - breakpoint) *
-    ((max - min) / (Layout.height - breakpoint));
+    ((max - min) / Math.max(1, Layout.height - breakpoint));
 
 const getChoices = (correctAnswer: Country) => {
   const choices = generateChoices(WRONG_CHOICES_AMOUNT, correctAnswer);
@@ -94,7 +94,7 @@ const CarouselView = React.memo(
     const buttonsMarginTop = getResponsiveVerticalSize({
       min: 10,
       max: 30,
-      breakpoint: GALAXY_A5_HEIGHT,
+      breakpoint: GALAXY_A5_HEIGHT - 20,
     });
     const buttonsMarginTopProp = `marginT-${buttonsMarginTop}`;
 
