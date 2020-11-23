@@ -94,7 +94,7 @@ const CarouselView = React.memo(
     const buttonsMarginTop = getResponsiveVerticalSize({
       min: 10,
       max: 30,
-      breakpoint: GALAXY_A5_HEIGHT - 20,
+      breakpoint: GALAXY_A5_HEIGHT,
     });
     const buttonsMarginTopProp = `marginT-${buttonsMarginTop}`;
 
