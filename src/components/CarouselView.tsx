@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Image, LoaderScreen, Colors, Button} from 'react-native-ui-lib';
 import {ImageStyle, StyleSheet, Linking} from 'react-native';
 import Layout from '../constants/Layout';
@@ -35,15 +35,19 @@ const CarouselView = React.memo(
     onWrongAnswer,
     testID,
   }: CarouselViewProps) => {
+    const {imageUrl: imgUrl, country: correctAnswer} = landmark;
+
     const [hasChosen, setHasChosen] = useState(false);
     const [hasChosenCorrectAnswer, setHasChosenCorrectAnswer] = useState(false);
-    const [choice, setChoice] = useState<Country | null>(null);
+    const [choices, setChoices] = useState(getChoices(correctAnswer));
+    const [userChoice, setUserChoice] = useState<Country | null>(null);
 
-    const {imageUrl: imgUrl, country: correctAnswer} = landmark;
-    const choices = useRef(getChoices(correctAnswer));
+    useEffect(() => {
+      setChoices(getChoices(correctAnswer));
+    }, [correctAnswer]);
 
     const openAuthorLink = () => {
-      // @TODO: implement error toas
+      // @TODO: implement error toast
       Linking.openURL(
         `${
           landmark.authorUrl as string
@@ -69,7 +73,7 @@ const CarouselView = React.memo(
       if (hasChosenCorrectAnswer && answer !== correctAnswer) return undefined;
       if (hasChosenCorrectAnswer && answer === correctAnswer)
         return Colors.green30;
-      if (!hasChosenCorrectAnswer && answer === choice) return Colors.red30;
+      if (!hasChosenCorrectAnswer && answer === userChoice) return Colors.red30;
       if (!hasChosenCorrectAnswer && answer === correctAnswer)
         return Colors.green30;
     };
@@ -118,7 +122,7 @@ const CarouselView = React.memo(
           />
         </View>
         <View {...{[buttonsMarginTopProp]: true}} paddingH-60>
-          {choices.current.map((answer, index) => (
+          {choices.map((answer, index) => (
             <Button
               {...colorProps[index]}
               {...{[choiceButtonTextProp]: true}}
@@ -132,13 +136,13 @@ const CarouselView = React.memo(
                   ? () => {
                       onCorrectAnswer(landmark);
                       setHasChosenCorrectAnswer(true);
-                      setChoice(answer);
+                      setUserChoice(answer);
                       setHasChosen(true);
                     }
                   : () => {
                       onWrongAnswer(landmark, answer);
                       setHasChosenCorrectAnswer(false);
-                      setChoice(answer);
+                      setUserChoice(answer);
                       setHasChosen(true);
                     }
               }
