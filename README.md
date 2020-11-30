@@ -1,6 +1,6 @@
 # Landmark Guesser
 
-![gif](https://media.giphy.com/media/iJOxuP2BUZgGYBtXW9/giphy.gif)
+<img src="preview.gif" width="285" height="630"/>
 
 ## Try it out
 - [Play store](https://play.google.com/store/apps/details?id=com.tozaicevas.guess_the_place)
