@@ -1,5 +1,7 @@
 # Landmark Guesser
 
+App with infinite scrolling and dynamically fetched images.
+
 <img src="preview.gif" width="285" height="630"/>
 
 ## Try it out
